@@ -13,16 +13,16 @@
             <input type="text" class="form-control" id="numeroContrato" name="numeroContrato"
                 formControlName="numeroContrato">
             @if (numeroContrato?.invalid && (numeroContrato?.dirty || numeroContrato?.touched)){
-                @if(f.numeroContrato.errors.required){
-                <div>
-                    El número de contrato es requerido.
-                </div>
-                }
-                @if(f.numeroContrato.errors.pattern){
-                <div>
-                    El número de contrato solo debe contener caracteres numéricos.
-                </div>
-                }
+            @if(f.numeroContrato.errors.required){
+            <div>
+                El número de contrato es requerido.
+            </div>
+            }
+            @if(f.numeroContrato.errors.pattern){
+            <div>
+                El número de contrato solo debe contener caracteres numéricos.
+            </div>
+            }
             }
         </div>
         <div class="form-group">
@@ -42,6 +42,46 @@
             </div>
             }
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!contractForm.valid">Guardar</button>
+        <br>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary" [disabled]="!contractForm.valid">Guardar</button>
+        </div>
+        <br>
+
     </form>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Modalidad</th>
+                <th scope="col">Número de contrato</th>
+                <th scope="col">Régimen</th>
+                <th scope="col">Archivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(lote of lotes; track lote)
+            {
+
+            @for(contrato of lote;track contrato.numeroContrato)
+            {
+            <tr>
+                <ng-container>
+                    <td scope="row">{{ contrato.modalidad }}</td>
+                    <td>{{ contrato.numeroContrato }}</td>
+                    <td>{{ contrato.regimen }}</td>
+                    <td>{{ contrato.archivo }}</td>
+                </ng-container>
+            </tr>
+            }
+
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <button (click)="prevPage()">Anterior</button>
+        <span>Página {{ currentPage }}</span>
+        <button (click)="nextPage()">Siguiente</button>
+    </div>
+
 </div>
