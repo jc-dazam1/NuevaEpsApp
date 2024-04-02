@@ -1,28 +1,47 @@
 <div class="container">
     <h2>Información de Contrato</h2>
-    <form>
-      <div class="form-group">
-        <label for="modalidad">Modalidad de Contrato:</label>
-        <select class="form-control" id="modalidad" name="modalidad">
-          <option value="evento">Evento</option>
-          <option value="capita">Cápita</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="numeroContrato">Número de Contrato:</label>
-        <input type="number" class="form-control" id="numeroContrato" name="numeroContrato">
-      </div>
-      <div class="form-group">
-        <label for="regimen">Régimen:</label>
-        <select class="form-control" id="regimen" name="regimen">
-          <option value="contributivo">Contributivo</option>
-          <option value="subsidiado">Subsidiado</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="archivo">Archivo:</label>
-        <input type="file" class="form-control-file" id="archivo" name="archivo">
-      </div>
-      <button type="submit" class="btn btn-primary">Guardar</button>
+    <form [formGroup]="contractForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="modalidad">Modalidad de Contrato:</label>
+            <select class="form-control" id="modalidad" name="modalidad" formControlName="modalidad">
+                <option value="evento">Evento</option>
+                <option value="capita">Cápita</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="numeroContrato">Número de Contrato:</label>
+            <input type="text" class="form-control" id="numeroContrato" name="numeroContrato"
+                formControlName="numeroContrato">
+            @if (numeroContrato?.invalid && (numeroContrato?.dirty || numeroContrato?.touched)){
+                @if(f.numeroContrato.errors.required){
+                <div>
+                    El número de contrato es requerido.
+                </div>
+                }
+                @if(f.numeroContrato.errors.pattern){
+                <div>
+                    El número de contrato solo debe contener caracteres numéricos.
+                </div>
+                }
+            }
+        </div>
+        <div class="form-group">
+            <label for="regimen">Régimen:</label>
+            <select class="form-control" id="regimen" name="regimen" formControlName="regimen">
+                <option value="contributivo">Contributivo</option>
+                <option value="subsidiado">Subsidiado</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="archivo">Archivo:</label>
+            <input type="file" class="form-control-file" id="archivo" name="archivo" formControlName="archivo">
+            @if (contractForm.get('archivo')?.invalid && (contractForm.get('archivo')?.dirty ||
+            contractForm.get('archivo')?.touched) ){
+            <div class="alert alert-danger">
+                El archivo es requerido.
+            </div>
+            }
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!contractForm.valid">Guardar</button>
     </form>
-  </div>
+</div>
